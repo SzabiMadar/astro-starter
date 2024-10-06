@@ -1,0 +1,52 @@
+---
+import SEO from "@components/SEO.astro";
+
+interface BaseLayoutProps {
+  title: string;
+  description: string;
+  keywords?: string;
+  image?: string;
+  author?: string;
+  url?: string;
+  addressLocality?: string;
+  addressRegion?: string;
+  postalCode?: string;
+  streetAddress?: string;
+  telephone?: string;
+}
+
+const {
+  title,
+  description,
+  keywords = "default keywords here",
+  image = "/seo/default-og-image.jpg",
+  author = "Astro Starter",
+  url = "https://example.com",
+  addressLocality = "Default City",
+  addressRegion = "Default Region",
+  postalCode = "00000",
+  streetAddress = "Default Street 1",
+  telephone = "+36 1 234 5678",
+} = Astro.props as Required<BaseLayoutProps>;
+---
+
+<html>
+  <head>
+    <SEO
+      title={title}
+      description={description}
+      keywords={keywords}
+      image={image}
+      author={author}
+      url={url}
+      addressLocality={addressLocality}
+      addressRegion={addressRegion}
+      postalCode={postalCode}
+      streetAddress={streetAddress}
+      telephone={telephone}
+    />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>

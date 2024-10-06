@@ -1,16 +1,21 @@
 ---
 import "@styles/main.css";
+import BaseLayout from "@layouts/BaseLayout.astro";
 ---
 
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width" />
-    <meta name="generator" content={Astro.generator} />
-    <title>Astro</title>
-  </head>
-  <body>
-    <h1>Astro</h1>
-  </body>
-</html>
+<BaseLayout
+  title="Astro Starter"
+  description="Astro Starter is a starter template for Astro, the modern static site builder."
+  keywords="astro, static site, starter template, modern, fast, seo"
+  image="/seo/default-og-image.jpg"
+  author="Astro Starter"
+  url="https://astro-starter.netlify.app"
+  addressLocality="Default City"
+  addressRegion="Default Region"
+  postalCode="00000"
+  streetAddress="Default Street 1"
+  telephone="+36 1 234 5678"
+>
+  <h1>Welcome to Astro Starter</h1>
+  <p>This is a starter template for Astro, the modern static site builder.</p>
+</BaseLayout>

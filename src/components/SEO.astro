@@ -1,0 +1,140 @@
+---
+// TODO lista a sablon új projekthez való használatához:
+// 1. Frissítsd a `title`, `description`, `keywords`, `author` és `url` prop-okat a projekt specifikus értékekkel.
+// 2. Cseréld le a `/seo/default-og-image.jpg` képet egy megfelelő Open Graph képre a projektedhez.
+// 3. Frissítsd az `author` és `publisher` információkat, hogy megfeleljenek az új projekt részleteinek.
+// 4. Ellenőrizd, hogy az összes URL, beleértve az `url` és `image` útvonalakat, helyesek-e a telepítési környezethez.
+// 5. Adj hozzá további meta tageket, ha szükséges az SEO vagy a közösségi megosztás érdekében.
+
+interface SEOProps {
+  title: string;
+  description: string;
+  keywords?: string;
+  image?: string;
+  author?: string;
+  url?: string;
+  addressLocality?: string;
+  addressRegion?: string;
+  postalCode?: string;
+  streetAddress?: string;
+  telephone?: string;
+}
+
+// SEO tulajdonságok destrukturálása az Astro props-ból
+// Frissítsd a szükséges SEO értékeket, hogy azok megfeleljenek a projekt specifikus igényeinek.
+const {
+  title,
+  description,
+  keywords = "default keywords here",
+  image = "/seo/default-og-image.jpg",
+  author = "Astro Starter",
+  url = "https://example.com",
+  addressLocality = "Default City",
+  addressRegion = "Default Region",
+  postalCode = "00000",
+  streetAddress = "Default Street 1",
+  telephone = "+36 1 234 5678",
+} = Astro.props as Required<SEOProps>;
+
+// JSON-LD Schema Markup objektum a strukturált adatokhoz
+// Ez az objektum a strukturált adatokat biztosítja a keresőmotorok számára, frissítsd a projekt specifikus értékekkel.
+const schema: Record<string, any> = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description: description,
+  author: {
+    "@type": "Person",
+    name: author,
+  },
+  url: url,
+  image: image,
+  publisher: {
+    "@type": "Organization",
+    name: "Astro Starter",
+    logo: {
+      "@type": "ImageObject",
+      url: "/seo/default-og-image.jpg",
+    },
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: telephone,
+    contactType: "Customer Service",
+  },
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: streetAddress,
+    addressLocality: addressLocality,
+    addressRegion: addressRegion,
+    postalCode: postalCode,
+  },
+};
+
+// Dinamikus meta adatok beállítása
+// Ez a kódrészlet biztosítja, hogy az oldal tartalmához kapcsolódó meta adatok dinamikusan generálódjanak.
+function generateDynamicMetaData(props: Required<SEOProps>) {
+  // Open Graph automatizáció: ha nincs specifikus OG kép megadva, akkor használjuk az oldal első képét vagy egy alapértelmezettet.
+  const ogImage = props.image || "/seo/default-og-image.jpg";
+
+  return (
+    <>
+      <title>{props.title}</title>
+      <meta name="description" content={props.description} />
+      <meta property="og:title" content={props.title} />
+      <meta property="og:description" content={props.description} />
+      <meta property="og:image" content={ogImage} />
+      <meta property="og:url" content={props.url} />
+      <meta name="twitter:title" content={props.title} />
+      <meta name="twitter:description" content={props.description} />
+      <meta name="twitter:image" content={ogImage} />
+
+      <link
+        rel="apple-touch-icon"
+        sizes="180x180"
+        href="/seo/apple-touch-icon.png"
+      />
+
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="32x32"
+        href="/seo/favicon-32x32.png"
+      />
+      <link
+        rel="icon"
+        type="image/png"
+        sizes="16x16"
+        href="/seo/favicon-16x16.png"
+      />
+      <link rel="manifest" href="/seo/site.webmanifest" />
+    </>
+  );
+}
+---
+
+<head>
+  {
+    generateDynamicMetaData({
+      title,
+      description,
+      keywords,
+      image,
+      author,
+      url,
+      addressLocality,
+      addressRegion,
+      postalCode,
+      streetAddress,
+      telephone,
+    })
+  }
+  <meta name="keywords" content={keywords} />
+  <meta name="author" content={author} />
+
+  <!-- Open Graph Meta Tag-ek -->
+  <meta property="og:type" content="website" />
+
+  <!-- JSON-LD Schema Markup -->
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+</head>
