@@ -70,70 +70,47 @@ const schema: Record<string, any> = {
     postalCode: postalCode,
   },
 };
-
-// Dinamikus meta adatok beállítása
-// Ez a kódrészlet biztosítja, hogy az oldal tartalmához kapcsolódó meta adatok dinamikusan generálódjanak.
-function generateDynamicMetaData(props: Required<SEOProps>) {
-  // Open Graph automatizáció: ha nincs specifikus OG kép megadva, akkor használjuk az oldal első képét vagy egy alapértelmezettet.
-  const ogImage = props.image || "/seo/default-og-image.jpg";
-
-  return (
-    <>
-      <title>{props.title}</title>
-      <meta name="description" content={props.description} />
-      <meta property="og:title" content={props.title} />
-      <meta property="og:description" content={props.description} />
-      <meta property="og:image" content={ogImage} />
-      <meta property="og:url" content={props.url} />
-      <meta name="twitter:title" content={props.title} />
-      <meta name="twitter:description" content={props.description} />
-      <meta name="twitter:image" content={ogImage} />
-
-      <link
-        rel="apple-touch-icon"
-        sizes="180x180"
-        href="/seo/apple-touch-icon.png"
-      />
-
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="32x32"
-        href="/seo/favicon-32x32.png"
-      />
-      <link
-        rel="icon"
-        type="image/png"
-        sizes="16x16"
-        href="/seo/favicon-16x16.png"
-      />
-      <link rel="manifest" href="/seo/site.webmanifest" />
-    </>
-  );
-}
 ---
 
 <head>
-  {
-    generateDynamicMetaData({
-      title,
-      description,
-      keywords,
-      image,
-      author,
-      url,
-      addressLocality,
-      addressRegion,
-      postalCode,
-      streetAddress,
-      telephone,
-    })
-  }
+  <title>{title}</title>
+  <meta name="description" content={description} />
   <meta name="keywords" content={keywords} />
   <meta name="author" content={author} />
 
   <!-- Open Graph Meta Tag-ek -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={image} />
   <meta property="og:type" content="website" />
+  <meta property="og:url" content={url} />
+
+  <!-- Twitter Card Meta Tag-ek -->
+  <meta name="twitter:card" content="/seo/summary_large_image" />
+  <meta name="twitter:title" content={title} />
+  <meta name="twitter:description" content={description} />
+  <meta name="twitter:image" content={image} />
+
+  <!-- Apple Touch Icon -->
+  <link
+    rel="apple-touch-icon"
+    sizes="180x180"
+    href="/seo/apple-touch-icon.png"
+  />
+  <!-- Favicon Meta Tag-ek -->
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="32x32"
+    href="/seo/favicon-32x32.png"
+  />
+  <link
+    rel="icon"
+    type="image/png"
+    sizes="16x16"
+    href="/seo/favicon-16x16.png"
+  />
+  <link rel="manifest" href="/seo/site.webmanifest" />
 
   <!-- JSON-LD Schema Markup -->
   <script type="application/ld+json" set:html={JSON.stringify(schema)} />
